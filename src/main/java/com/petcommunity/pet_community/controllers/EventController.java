@@ -2,6 +2,7 @@ package com.petcommunity.pet_community.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class EventController {
     // Obtiene la cantidad de participantes de un evento
     // ej: localhost:8080/api/events/1/count-participants
     @GetMapping("/{id}/count-participants")
-    public Long countParticipantsByEventId(@PathVariable Long id) {
+    public Map<String, Long> countParticipantsByEventId(@PathVariable Long id) {
         return eventParticipantService.countParticipantsByEventId(id);
     }
 

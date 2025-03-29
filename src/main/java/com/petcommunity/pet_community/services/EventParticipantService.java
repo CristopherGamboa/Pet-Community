@@ -1,6 +1,7 @@
 package com.petcommunity.pet_community.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,11 @@ public class EventParticipantService implements IEventParticipantService {
     }
 
     @Override
-    public Long countParticipantsByEventId(Long id) {
-        return eventParticipantRepository.countParticipantsByEventId(id);
+    public Map<String, Long> countParticipantsByEventId(Long id) {
+        Map<String, Long> count = Map.of("count", 
+        eventParticipantRepository.countParticipantsByEventId(id));
+
+        return count;
     }
 
     @Override
