@@ -11,6 +11,8 @@ import com.petcommunity.pet_community.models.Participant;
 import com.petcommunity.pet_community.repositories.interfaces.IParticipantRepository;
 import com.petcommunity.pet_community.services.interfaces.IParticipantService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ParticipantService implements IParticipantService {
 
@@ -51,7 +53,7 @@ public class ParticipantService implements IParticipantService {
     @Override
     public Optional<Participant> update(Long id, ParticipantRequest request) {
         if (!petOwnerRepository.existsById(id)) {
-            return Optional.empty();
+            throw new EntityNotFoundException("Participant with id " + id + " not found");
         }
 
         Participant participant = Participant.builder()
@@ -67,6 +69,10 @@ public class ParticipantService implements IParticipantService {
 
     @Override
     public void delete(Long id) {
+        if (!petOwnerRepository.existsById(id)) {
+            throw new EntityNotFoundException("Participant with id " + id + " not found");
+        }
+        
         petOwnerRepository.deleteById(id);
     }
 }

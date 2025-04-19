@@ -11,6 +11,8 @@ import com.petcommunity.pet_community.models.Event;
 import com.petcommunity.pet_community.repositories.interfaces.IEventRepository;
 import com.petcommunity.pet_community.services.interfaces.IEventService;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class EventService implements IEventService {
     private final IEventRepository eventRepository;
@@ -58,7 +60,7 @@ public class EventService implements IEventService {
     @Override
     public Optional<Event> update(Long id, EventRequest request) {
         if (!eventRepository.existsById(id)) {
-            return Optional.empty();
+            throw new EntityNotFoundException("Event with id " + id + " not found");
         }
 
         Event event = Event.builder()
@@ -77,6 +79,10 @@ public class EventService implements IEventService {
 
     @Override
     public void delete(Long id) {
+        if (!eventRepository.existsById(id)) {
+            throw new EntityNotFoundException("Event with id " + id + " not found");
+        }
+
         eventRepository.deleteById(id);
     }
 }

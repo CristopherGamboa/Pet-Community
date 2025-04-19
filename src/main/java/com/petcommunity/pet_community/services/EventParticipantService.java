@@ -66,7 +66,7 @@ public class EventParticipantService implements IEventParticipantService {
     @Override
     public Optional<EventParticipant> update(Long id, EventParticipantRequest request) {
         if (!eventParticipantRepository.existsById(id)) {
-            return Optional.empty();
+            throw new EntityNotFoundException("EventParticipant with id " + id + " not found");
         }
 
         Event event = eventRepository.findById(request.getEventId())
@@ -86,6 +86,10 @@ public class EventParticipantService implements IEventParticipantService {
 
     @Override
     public void delete(Long id) {
+        if (!eventParticipantRepository.existsById(id)) {
+            throw new EntityNotFoundException("EventParticipant with id " + id + " not found");
+        }
+
         eventParticipantRepository.deleteById(id);
     }
 }
