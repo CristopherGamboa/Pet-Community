@@ -1,12 +1,12 @@
 package com.petcommunity.pet_community.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.petcommunity.pet_community.dtos.EventRequest;
 import com.petcommunity.pet_community.models.Event;
 import com.petcommunity.pet_community.repositories.interfaces.IEventRepository;
 import com.petcommunity.pet_community.services.interfaces.IEventService;
@@ -26,11 +26,6 @@ public class EventService implements IEventService {
     }
 
     @Override
-    public List<Event> findByDateRange(LocalDate startDate, LocalDate endDate) {
-        return eventRepository.findByDateRange(startDate, endDate);
-    }
-
-    @Override
     public Optional<Event> findById(Long id) {
         return eventRepository.findById(id);
     }
@@ -43,5 +38,45 @@ public class EventService implements IEventService {
     @Override
     public List<Event> findByEventType(String eventType) {
         return eventRepository.findByEventType(eventType);
+    }
+
+    @Override
+    public Optional<Event> save(EventRequest request) {
+        Event event = Event.builder()
+            .name(request.getName())
+            .description(request.getDescription())
+            .location(request.getLocation())
+            .eventType(request.getEventType())
+            .petType(request.getPetType())
+            .startDate(request.getStartDate())
+            .endDate(request.getEndDate())
+            .build();
+
+        return Optional.of(eventRepository.save(event));
+    }
+
+    @Override
+    public Optional<Event> update(Long id, EventRequest request) {
+        if (!eventRepository.existsById(id)) {
+            return Optional.empty();
+        }
+
+        Event event = Event.builder()
+            .id(id)
+            .name(request.getName())
+            .description(request.getDescription())
+            .location(request.getLocation())
+            .eventType(request.getEventType())
+            .petType(request.getPetType())
+            .startDate(request.getStartDate())
+            .endDate(request.getEndDate())
+            .build();
+
+        return Optional.of(eventRepository.save(event));
+    }
+
+    @Override
+    public void delete(Long id) {
+        eventRepository.deleteById(id);
     }
 }
