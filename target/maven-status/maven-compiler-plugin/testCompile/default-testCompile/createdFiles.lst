@@ -1,0 +1,4 @@
+com\petcommunity\pet_community\controllers\EventControllerTest.class
+com\petcommunity\pet_community\PetCommunityApplicationTests.class
+com\petcommunity\pet_community\services\EventServiceTest.class
+com\petcommunity\pet_community\repositories\EventRepositoryTest.class
