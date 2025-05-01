@@ -38,6 +38,11 @@ public class EventParticipantService implements IEventParticipantService {
     }
 
     @Override
+    public Optional<EventParticipant> findById(Long id) {
+        return eventParticipantRepository.findById(id);
+    }
+
+    @Override
     public List<EventParticipant> findByEventId(Long id) {
         return eventParticipantRepository.findByEventId(id);
     }

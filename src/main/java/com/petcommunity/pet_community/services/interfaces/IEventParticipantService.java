@@ -8,6 +8,7 @@ import com.petcommunity.pet_community.models.EventParticipant;
 
 public interface IEventParticipantService {
     public List<EventParticipant> findAll();
+    public Optional<EventParticipant> findById(Long id);
     public List<EventParticipant> findByEventId(Long id);
     public List<EventParticipant> findByParticipantId(Long id);
     public Optional<EventParticipant> save(EventParticipantRequest request);
