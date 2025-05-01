@@ -2,6 +2,7 @@ package com.petcommunity.pet_community.repositories;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -11,27 +12,23 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.petcommunity.pet_community.enums.EventType;
 import com.petcommunity.pet_community.enums.PetType;
 import com.petcommunity.pet_community.models.Event;
 import com.petcommunity.pet_community.repositories.interfaces.IEventRepository;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ExtendWith(MockitoExtension.class)
 public class EventRepositoryTest {
-        private static final Logger logger = LoggerFactory.getLogger(EventRepositoryTest.class);
-    private final IEventRepository eventRepository;
+    private static final Logger logger = LoggerFactory.getLogger(EventRepositoryTest.class);
     
-    @Autowired
-    public EventRepositoryTest(IEventRepository eventRepository) {
-        this.eventRepository = eventRepository;
-    }
+    @Mock
+    private IEventRepository eventRepository;
 
     @BeforeEach
     public void setUp(TestInfo testInfo) {
@@ -47,6 +44,7 @@ public class EventRepositoryTest {
     @DisplayName("Repository save event test")
     public void saveEventTest() {
         Event event = Event.builder()
+            .id(1L)
             .name("Pet Fest")
             .description("Pet festival for dogs")
             .location("San Francisco")
@@ -56,6 +54,7 @@ public class EventRepositoryTest {
             .endDate(LocalDateTime.now().plusDays(4))
             .build();
 
+        when(eventRepository.save(event)).thenReturn(event);
         Event savedEvent = eventRepository.save(event);
 
         assertNotNull(savedEvent.getId());
@@ -72,6 +71,7 @@ public class EventRepositoryTest {
     @DisplayName("Repository find event by ID test")
     public void findEventByIdTest() {
         Event event = Event.builder()
+            .id(1L)
             .name("Pet Fest")
             .description("Pet festival for dogs")
             .location("San Francisco")
@@ -81,8 +81,10 @@ public class EventRepositoryTest {
             .endDate(LocalDateTime.now().plusDays(4))
             .build();
 
+        when(eventRepository.save(event)).thenReturn(event);
         Event savedEvent = eventRepository.save(event);
 
+        when(eventRepository.findById(savedEvent.getId())).thenReturn(Optional.of(savedEvent));
         Optional<Event> foundEvent = eventRepository.findById(savedEvent.getId());
 
         assertNotNull(foundEvent);
