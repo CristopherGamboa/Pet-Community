@@ -2,6 +2,8 @@ package com.petcommunity.pet_community.models;
 
 import java.time.LocalDateTime;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.petcommunity.pet_community.enums.EventType;
 import com.petcommunity.pet_community.enums.PetType;
 
@@ -26,7 +28,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "event")
-public class Event {
+public class Event extends RepresentationModel<Event> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

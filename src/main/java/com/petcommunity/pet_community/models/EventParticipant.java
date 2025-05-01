@@ -1,5 +1,7 @@
 package com.petcommunity.pet_community.models;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +22,7 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "event_participant")
-public class EventParticipant {
+public class EventParticipant extends RepresentationModel<EventParticipant> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,5 +1,7 @@
 package com.petcommunity.pet_community.models;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.petcommunity.pet_community.enums.PetType;
 
 import jakarta.persistence.Entity;
@@ -25,7 +27,8 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name = "pet")
-public class Pet {
+public class Pet extends RepresentationModel<Pet> {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
